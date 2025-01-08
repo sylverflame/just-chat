@@ -16,17 +16,23 @@ type ChatProps = {
 const Chat = ({ chatLog, totalUsers }: ChatProps) => {
   const [input, setInput] = useState("");
   const [usernameField, setUsernameField] = useState("");
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(localStorage.getItem("username") || "");
 
   // -- UseEffects
   useEffect(() => {
-    setTimeout(() => {
-      (
-        document.querySelector(".message-area")?.lastChild as Element
-      )?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
-  }, [username, chatLog]);
+    const scrollToBottom = () => {
+      const messageArea = document.querySelector(".message-area");
+      if (messageArea?.lastChild) {
+        (messageArea.lastChild as Element).scrollIntoView({ behavior: "smooth" });
+      }
+    };
 
+    const timeoutId = setTimeout(scrollToBottom, 100);
+
+    return () => clearTimeout(timeoutId);
+  }, [chatLog, username]);
+
+  // -- Functions
   const handleChatSubmit = (e: any) => {
     if (e.key === "Enter") {
       chatSocket.send(
@@ -46,10 +52,16 @@ const Chat = ({ chatLog, totalUsers }: ChatProps) => {
         alert("Username too long");
         return;
       }
-      setUsername(e.target.value);
+      if (e.target.value.includes("boo")) {
+        setUsername(e.target.value);
+        localStorage.setItem("username", e.target.value);
+      } else {
+        chatSocket.close()
+      }
     }
   };
 
+  // -- Component
   return (
     <div className="chat-component">
       {!username && (

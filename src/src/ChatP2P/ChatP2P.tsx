@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Chat from "./Chat/Chat";
-export const chatSocket = new WebSocket("ws://192.168.1.143:3000");
+export const chatSocket = new WebSocket("ws://just-chat-be.fly.dev");
 
 const ChatP2P = () => {
   const [chatLog, setChatLog] = useState([]);

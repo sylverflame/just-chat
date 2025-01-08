@@ -63,6 +63,10 @@
   box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 5px;
 }
 
+.chat-title {
+  padding: 2rem;
+}
+
 .chat-title-text {
   background: -webkit-linear-gradient(90deg, #009245 0%, #fcee21 100%);
   -webkit-background-clip: text;
